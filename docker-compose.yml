@@ -1,19 +1,19 @@
 services:
-  frontend:
-    container_name: app_frontend
-    build: ./frontend
-    ports:
-      - 3001:3001
-    working_dir: /app-frontend
-    volumes: 
-      - ./frontend/src:/app-frontend/src
-    command: dev
-    healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"] 
-      timeout: 10s
-      retries: 5
-    depends_on:
-      - backend
+  # frontend:
+  #   container_name: app_frontend
+  #   build: ./frontend
+  #   ports:
+  #     - 3001:3001
+  #   working_dir: /app-frontend
+  #   volumes: 
+  #     - ./frontend/src:/app-frontend/src
+  #   command: dev
+  #   healthcheck:
+  #     test: ["CMD", "lsof", "-t", "-i:3001"] 
+  #     timeout: 10s
+  #     retries: 5
+  #   depends_on:
+  #     - backend
   backend:
     container_name: app_backend
     build: ./backend
@@ -23,8 +23,6 @@ services:
     depends_on:
       - db
     command: start:dev
-    networks:
-      - queue-network
     volumes: 
       - ./backend/src:/app-backend/src
       - ./backend/prisma:/app-backend/prisma
@@ -32,18 +30,12 @@ services:
       test: ["CMD", "lsof", "-t", "-i:3000"] 
       timeout: 10s
       retries: 5
-    environment:
-      - DATABASE_URL=file:/app-backend/prisma/dev.db
   db:
     image: postgres
     ports:
       - 5432:5432
     environment:
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=123456
-    networks:
-      - queue-network
     container_name: database
 
-networks:
-  queue-network:
-    driver: bridge
