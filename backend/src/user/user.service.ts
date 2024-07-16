@@ -5,11 +5,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
-import * as Joi from 'joi';
+
 import * as jwt from 'jsonwebtoken';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { createUserSchema } from './schemas/createUser.schema';
+import { loginSchema } from './schemas/login.schema';
 
 type LoginToken = {
   token: string;
@@ -17,36 +19,11 @@ type LoginToken = {
 @Injectable()
 export class UserService {
   private _secret = process.env.JWT_SECRET ?? 'secret';
-  private _invalidMessage = 'Invalid email or password';
+
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto) {
-    const filled = 'All fields must be filled';
-    const createAssignor = Joi.object({
-      email: Joi.string()
-        .pattern(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i)
-        .max(140)
-        .required()
-        .messages({
-          'any.required': filled,
-          'string.empty': filled,
-          'string.pattern.base':
-            "email must follow this pattern 'example@example.com'",
-        }),
-      document: Joi.string().max(30).required().messages({
-        'any.required': filled,
-        'string.empty': filled,
-      }),
-      phone: Joi.string().max(20).required(),
-      name: Joi.string().max(140).required(),
-      password: Joi.string().min(6).required().messages({
-        'any.required': filled,
-        'string.min': this._invalidMessage,
-        'string.empty': filled,
-      }),
-    });
-
-    const { error } = createAssignor.validate(createUserDto);
+    const { error } = createUserSchema.validate(createUserDto);
 
     if (error) throw new BadRequestException(error.message);
 
@@ -65,7 +42,7 @@ export class UserService {
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.user.findMany({
       select: {
         id: true,
@@ -97,11 +74,11 @@ export class UserService {
     return user;
   }
 
-  async update(id: string, updateAssignorDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     await this.findOne(id);
     return this.prisma.user.update({
       where: { id },
-      data: updateAssignorDto,
+      data: updateUserDto,
       select: { password: false },
     });
   }
@@ -121,23 +98,6 @@ export class UserService {
     login: string;
     password: string;
   }) {
-    const filled = 'All fields must be filled';
-    const loginSchema = Joi.object({
-      login: Joi.string()
-        .pattern(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i)
-        .required()
-        .messages({
-          'any.required': filled,
-          'string.empty': filled,
-          'string.pattern.base': this._invalidMessage,
-        }),
-      password: Joi.string().min(6).required().messages({
-        'any.required': filled,
-        'string.min': this._invalidMessage,
-        'string.empty': filled,
-      }),
-    });
-
     const { error } = loginSchema.validate({ login, password });
     if (error) return error;
   }

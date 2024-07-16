@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export default class AuthMiddleware implements NestMiddleware {
-  private _secret = process.env.JWT_SECRET ?? 'secret';
+  private _secret = process.env.JWT_SECRET ?? 'mysecret';
 
   static extractToken(token: string | undefined) {
     if (token) {

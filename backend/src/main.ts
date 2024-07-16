@@ -7,7 +7,6 @@ import { HttpExceptionFilter } from './exceptions/Exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors();
-  app.useBodyParser('json', { limit: '10mb' });
   app.useGlobalFilters(new HttpExceptionFilter());
   const config = new DocumentBuilder()
     .setTitle('Meu Guru')

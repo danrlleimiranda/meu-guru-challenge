@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class AssignorDto {
+export class UserDto {
   @ApiProperty()
   id: string;
   @ApiProperty()
@@ -8,19 +8,25 @@ export class AssignorDto {
   @ApiProperty()
   email: string;
   @ApiProperty()
+  isAdmin: boolean;
+  @ApiProperty()
   phone: string;
   @ApiProperty()
   name: string;
 
-  constructor(assignor: {
+  constructor(user: {
+    id: string;
     document: string;
     email: string;
+    isAdmin: boolean;
     phone: string;
     name: string;
   }) {
-    this.document = assignor.document;
-    this.email = assignor.email;
-    this.phone = assignor.phone;
-    this.name = assignor.name;
+    this.id = user.id;
+    this.document = user.document;
+    this.email = user.email;
+    this.isAdmin = user.isAdmin;
+    this.phone = user.phone;
+    this.name = user.name;
   }
 }
