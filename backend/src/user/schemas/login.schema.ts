@@ -1,4 +1,5 @@
 import * as Joi from 'joi';
+
 const invalidMessage = 'Invalid email or password';
 const filled = 'All fields must be filled';
 export const loginSchema = Joi.object({

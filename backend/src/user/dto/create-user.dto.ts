@@ -8,7 +8,7 @@ export class CreateUserDto {
   @ApiProperty()
   password: string;
   @ApiProperty()
-  isAdmin: boolean;
+  role: string;
   @ApiProperty()
   phone: string;
   @ApiProperty()
@@ -19,9 +19,11 @@ export class CreateUserDto {
     email: string;
     phone: string;
     password: string;
+    role: string;
     name: string;
   }) {
     this.document = user.document;
+    this.role = user.role;
     this.email = user.email;
     this.phone = user.phone;
     this.name = user.name;

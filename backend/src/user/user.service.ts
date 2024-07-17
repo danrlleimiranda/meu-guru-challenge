@@ -1,12 +1,14 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 
-import * as jwt from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
+import { Role } from 'src/auth/role/role.enum';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -18,9 +20,12 @@ type LoginToken = {
 };
 @Injectable()
 export class UserService {
-  private _secret = process.env.JWT_SECRET ?? 'secret';
+  private logger = new Logger();
 
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const { error } = createUserSchema.validate(createUserDto);
@@ -35,7 +40,7 @@ export class UserService {
         email: true,
         name: true,
         document: true,
-        isAdmin: true,
+        role: true,
         phone: true,
         password: false,
       },
@@ -49,7 +54,7 @@ export class UserService {
         email: true,
         name: true,
         document: true,
-        isAdmin: true,
+        role: true,
         phone: true,
         password: false,
       },
@@ -63,7 +68,7 @@ export class UserService {
         email: true,
         name: true,
         document: true,
-        isAdmin: true,
+        role: true,
         phone: true,
         password: false,
       },
@@ -120,12 +125,14 @@ export class UserService {
     }
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      throw new UnauthorizedException('Não autorizado');
+      throw new UnauthorizedException('Unauthorized user');
     }
-    const payload = { sub: user.id, role: user.isAdmin ? 'admin' : 'user' };
-    const jwtConfig: jwt.SignOptions = { expiresIn: '3000s' };
-
-    const token = jwt.sign(payload, this._secret, jwtConfig);
+    const payload = {
+      sub: user.id,
+      role: user.role === 'admin' ? Role.Admin : Role.User,
+    };
+    const token = await this.jwtService.signAsync(payload);
+    this.logger.log(payload);
     return { token };
   }
 }
