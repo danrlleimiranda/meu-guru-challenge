@@ -7,9 +7,9 @@ import {
 import * as bcrypt from 'bcryptjs';
 
 import { JwtService } from '@nestjs/jwt';
-import { Role } from 'src/auth/role/role.enum';
-import logger from 'src/log/logger';
 import { PrismaService } from '../../prisma/prisma.service';
+import { Role } from '../auth/role/role.enum';
+import logger from '../log/logger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { createUserSchema } from './schemas/createUser.schema';
