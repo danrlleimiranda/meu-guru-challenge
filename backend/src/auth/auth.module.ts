@@ -9,7 +9,6 @@ import { AuthController } from './auth.controller';
   imports: [
     PrismaModule,
     UserModule,
-
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET || 'secret',

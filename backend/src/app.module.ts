@@ -15,9 +15,3 @@ import { UserModule } from './user/user.module';
   ],
 })
 export class AppModule {}
-// export class AppModule implements NestModule {
-//   constructor() {}
-//   configure(consumer: MiddlewareConsumer) {
-//     consumer.apply(AuthMiddleware).forRoutes('/users');
-//   }
-// }

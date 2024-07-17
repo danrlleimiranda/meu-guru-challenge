@@ -16,6 +16,7 @@ export const createUserSchema = Joi.object({
     'any.required': filled,
     'string.empty': filled,
   }),
+  role: Joi.string().max(20).required(),
   phone: Joi.string().max(20).required(),
   name: Joi.string().max(140).required(),
   password: Joi.string().min(6).required().messages({

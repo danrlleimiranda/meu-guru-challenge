@@ -18,13 +18,13 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@UseGuards(AuthGuard, RolesGuard)
 @Controller('/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
   @HttpCode(200)
+  @UseGuards(AuthGuard, RolesGuard)
   async getAllUsers(
     @Query('page') page: string,
     @Query('offset') offset: string,
@@ -40,19 +40,22 @@ export class UserController {
   }
 
   @Get('/:id')
+  @UseGuards(AuthGuard, RolesGuard)
   async findUserById(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
 
   @Patch('/:id')
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 
   @Delete('/:id')
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  @HttpCode(204)
+  @HttpCode(200)
   removeUser(@Param('id') id: string) {
     return this.userService.remove(id);
   }

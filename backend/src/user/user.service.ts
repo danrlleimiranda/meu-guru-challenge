@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -9,6 +8,7 @@ import * as bcrypt from 'bcryptjs';
 
 import { JwtService } from '@nestjs/jwt';
 import { Role } from 'src/auth/role/role.enum';
+import logger from 'src/log/logger';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -20,8 +20,6 @@ type LoginToken = {
 };
 @Injectable()
 export class UserService {
-  private logger = new Logger();
-
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
@@ -33,6 +31,7 @@ export class UserService {
     if (error) throw new BadRequestException(error.message);
 
     const hashedPassword = bcrypt.hashSync(createUserDto.password);
+    logger.info('User created');
     return this.prisma.user.create({
       data: { ...createUserDto, password: hashedPassword },
       select: {
@@ -51,7 +50,7 @@ export class UserService {
     const pageNumber = parseInt(page);
     const take = parseInt(offset);
     const skip = pageNumber * take;
-
+    logger.info('Users searched');
     return this.prisma.user.findMany({
       select: {
         id: true,
@@ -86,12 +85,13 @@ export class UserService {
     });
 
     if (!user) throw new NotFoundException('User not found');
-
+    logger.info('User founded');
     return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     await this.findOne(id);
+    logger.info('User updated');
     return this.prisma.user.update({
       where: { id },
       data: updateUserDto,
@@ -101,6 +101,7 @@ export class UserService {
 
   async remove(id: string) {
     await this.findOne(id);
+    logger.info('User removed');
     return this.prisma.user.delete({
       where: { id },
       select: { password: false },
@@ -132,10 +133,12 @@ export class UserService {
     });
 
     if (!user) {
+      logger.error('User not found');
       throw new NotFoundException('User not found');
     }
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
+      logger.error('Unauthorized user');
       throw new UnauthorizedException('Unauthorized user');
     }
     const payload = {
@@ -143,7 +146,7 @@ export class UserService {
       role: user.role === 'admin' ? Role.Admin : Role.User,
     };
     const token = await this.jwtService.signAsync(payload);
-    this.logger.log(payload);
+    logger.info(`Logged user: ${JSON.stringify(payload)}`);
     return { token };
   }
 }
