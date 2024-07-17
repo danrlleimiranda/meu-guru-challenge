@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -24,8 +25,12 @@ export class UserController {
 
   @Get()
   @HttpCode(200)
-  async getAllUsers() {
-    return this.userService.findAll();
+  async getAllUsers(
+    @Query('page') page: string,
+    @Query('offset') offset: string,
+    @Query('filters') filters?: string,
+  ) {
+    return this.userService.findAll({ page, offset, filters });
   }
 
   @Post()

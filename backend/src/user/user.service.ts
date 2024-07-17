@@ -47,7 +47,11 @@ export class UserService {
     });
   }
 
-  async findAll() {
+  async findAll({ page, offset, filters }) {
+    const pageNumber = parseInt(page);
+    const take = parseInt(offset);
+    const skip = pageNumber * take;
+
     return this.prisma.user.findMany({
       select: {
         id: true,
@@ -57,6 +61,13 @@ export class UserService {
         role: true,
         phone: true,
         password: false,
+      },
+      skip: skip || 0,
+      take: take || 3,
+      where: {
+        name: {
+          contains: filters,
+        },
       },
     });
   }
