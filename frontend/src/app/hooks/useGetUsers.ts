@@ -13,7 +13,7 @@ type User = {
 };
 
 const getUsers = async ({ page, offset, filters }: PaginationType) => {
-  return await api.get<User[]>(
+  return await api.get<User[] & { total: number }>(
     `/users?page=${page}&offset=${offset}&filters=${filters}`
   );
 };

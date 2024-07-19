@@ -1,5 +1,5 @@
 export type PaginationType = {
-  page: string;
-  offset: string;
+  page: number;
+  offset: number;
   filters: string | undefined;
 };

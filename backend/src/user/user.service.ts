@@ -51,7 +51,8 @@ export class UserService {
     const take = parseInt(offset);
     const skip = pageNumber * take;
     logger.info('Users searched');
-    return this.prisma.user.findMany({
+    const total = await this.prisma.user.count();
+    const users = await this.prisma.user.findMany({
       select: {
         id: true,
         email: true,
@@ -70,6 +71,7 @@ export class UserService {
         },
       },
     });
+    return { ...users, total };
   }
 
   async findOne(id: string) {

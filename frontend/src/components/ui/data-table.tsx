@@ -33,11 +33,13 @@ import { Input } from "./input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  // handlePagination: (page: number) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  // handlePagination
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -63,7 +65,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="w-1/2 self-center mt-48">
+    <div className="w-1/2 self-center mt-48 bg-white p-8 rounded-xl">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter emails..."
@@ -154,7 +156,7 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.previousPage()}
+          onClick={() => console.log('previous')}
           disabled={!table.getCanPreviousPage()}
         >
           Previous
@@ -162,7 +164,7 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => table.nextPage()}
+          onClick={() => console.log('next')}
           disabled={!table.getCanNextPage()}
         >
           Next

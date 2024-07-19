@@ -50,34 +50,34 @@ export const columns: ColumnDef<User>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
+      const user = row.original
  
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Abrir menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(user.document)}
             >
-              Copy payment ID
+              Copie o CPF
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.email)}>Copie o email</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.name)}>Copie o nome</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
     },
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "name",
+    header: "Nome",
   },
   {
     accessorKey: "email",
@@ -94,7 +94,11 @@ export const columns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "document",
+    header: "CPF",
+  },
+  {
+    accessorKey: "phone",
+    header: "Telefone",
   },
 ]
