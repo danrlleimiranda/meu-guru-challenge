@@ -66,10 +66,12 @@ export class UserService {
       where: {
         name: {
           contains: filters,
+          mode: 'insensitive',
         },
       },
     });
   }
+
   async findOne(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },
