@@ -18,7 +18,7 @@ services:
       - ./backend/src:/app-backend/src
       - ./backend/prisma:/app-backend/prisma
   postgres:
-    image: postgres
+    image: postgres:16.3-alpine3.20
     container_name: postgresprisma
     restart: always
     ports:
