@@ -15,9 +15,9 @@ export default function Users() {
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full bg-[#7B2EC6]">
       <Header />
-      <DataTable columns={columns} data={data ? data : []} />
+      <DataTable columns={columns} data={data ? data : []}/>
     </div>
   );
 }
