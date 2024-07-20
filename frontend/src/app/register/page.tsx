@@ -92,7 +92,7 @@ export default function RegisterUser() {
   return (
     <main className={`flex flex-col items-center justify-center gap-12 p-24`}>
       <Image src={logo} alt="meu guru logo" className="" />
-      <h1 className="text-4xl font-bold">Registre-se</h1>
+      <h1 className="text-3xl font-bold ">Crie a sua conta</h1>
       <div className="bg-purple">
         <Form {...form}>
           <form
@@ -194,10 +194,10 @@ export default function RegisterUser() {
 
             <Button
               type="submit"
-              className=""
+              className="bg-[#7A2EC5] hover:bg-purple-800"
               disabled={!form.formState.isValid}
             >
-              Register
+              Registrar
             </Button>
           </form>
         </Form>

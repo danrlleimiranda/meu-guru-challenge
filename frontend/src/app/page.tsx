@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -32,6 +33,7 @@ export default function Login() {
   const {
     mutate: mutateLogin,
     isSuccess: isLoginSuccess,
+    isError,
     data: loginData,
   } = useLogin();
 
@@ -57,7 +59,7 @@ export default function Login() {
 
   return (
     <div className={style.container}>
-      <Image src={logo} alt="" className={style.logo} />
+      <Image src={logo} alt="meu guru logo" className={style.logo} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleLogin)}
@@ -69,9 +71,14 @@ export default function Login() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="email" {...field} />
+                  <Input placeholder="Digite seu email" {...field} />
                 </FormControl>
-                <FormMessage className="text-xs"/>
+                <FormMessage className="text-xs" />
+                {isError && (
+                  <FormDescription className="text-rose-700">
+                    Usuário ou senha incorretos
+                  </FormDescription>
+                )}
               </FormItem>
             )}
           />
@@ -81,9 +88,11 @@ export default function Login() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="password" {...field} />
+                  <Input placeholder="Digite sua senha" {...field} />
                 </FormControl>
                 <FormMessage />
+                <FormDescription className="text-xs underline text-purple-700">
+                  <a href="/register">Não tem conta? Registre-se</a></FormDescription>
               </FormItem>
             )}
           />
