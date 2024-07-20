@@ -4,16 +4,19 @@ import { api } from "../../api";
 import { PaginationType } from "../types/types";
 
 type User = {
-  id: string;
-  document: string;
-  email: string;
-  phone: string;
-  name: string;
-  role: string;
+  data: {
+    id: string;
+    document: string;
+    email: string;
+    phone: string;
+    name: string;
+    role: string;
+  }[];
+  total: number;
 };
 
 const getUsers = async ({ page, offset, filters }: PaginationType) => {
-  return await api.get<User[] & { total: number }>(
+  return await api.get<User>(
     `/users?page=${page}&offset=${offset}&filters=${filters}`
   );
 };

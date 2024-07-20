@@ -71,7 +71,7 @@ export class UserService {
         },
       },
     });
-    return { ...users, total };
+    return { data: users, total };
   }
 
   async findOne(id: string) {

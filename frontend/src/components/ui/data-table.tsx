@@ -33,13 +33,13 @@ import { Input } from "./input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  // handlePagination: (page: number) => void;
+  handlePagination: (page: number) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  // handlePagination
+  handlePagination
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -156,16 +156,16 @@ export function DataTable<TData, TValue>({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => console.log('previous')}
-          disabled={!table.getCanPreviousPage()}
+          onClick={() => handlePagination(-1)}
+          // disabled={!table.getCanPreviousPage()}
         >
           Previous
         </Button>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => console.log('next')}
-          disabled={!table.getCanNextPage()}
+          onClick={() => handlePagination(1)}
+          // disabled={!table.getCanNextPage()}
         >
           Next
         </Button>
