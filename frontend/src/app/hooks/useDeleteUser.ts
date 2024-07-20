@@ -2,22 +2,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "../../api";
 
-type CreateUser = {
-  document: string;
-  email: string;
+type UserLogin = {
+  login: string;
   password: string;
-  phone: string;
-  name: string;
-  role: string;
 };
 
-const createUser = async (user: CreateUser) =>
-  await api.post("/auth/signup", user);
-
-const useCreateUser = () => {
+const deleteUser = async (id: string) => await api.delete(`/users/${id}`);
+const useDelete = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (user: CreateUser) => createUser(user),
+    mutationFn: (id: string) => deleteUser(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["users-data"],
@@ -28,4 +22,4 @@ const useCreateUser = () => {
   });
 };
 
-export default useCreateUser;
+export default useDelete;

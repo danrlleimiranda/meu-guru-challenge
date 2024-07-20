@@ -9,7 +9,7 @@ import { columns } from "./columns";
 export default function Users() {
   const [pagination, setPagination] = useState({
     page: 0,
-    offset: 2,
+    offset: 3,
     filters: "",
   });
   const { data, refetch } = useGetUsers({ ...pagination });

@@ -88,7 +88,7 @@ export default function Login() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Digite sua senha" {...field} />
+                  <Input placeholder="Digite sua senha" type="password" autoComplete="false" {...field} />
                 </FormControl>
                 <FormMessage />
                 <FormDescription className="text-xs underline text-purple-700">

@@ -18,10 +18,10 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException({ message: 'Token not found' });
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: process.env.JWT_SECRET || 'secret',
+      const decode = await this.jwtService.verifyAsync(token, {
+        secret: process.env.JWT_SECRET,
       });
-      request['user'] = payload;
+      request.user = decode;
     } catch {
       throw new UnauthorizedException({
         message: 'Token must be a valid token',

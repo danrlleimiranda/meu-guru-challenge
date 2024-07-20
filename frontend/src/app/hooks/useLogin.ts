@@ -7,7 +7,7 @@ type UserLogin = {
   password: string;
 };
 
-const logIn = async (user: UserLogin) => await api.post("/auth", user);
+const logIn = async (user: UserLogin) => await api.post("/auth/signin", user);
 const useLogin = () =>
   useMutation({ mutationFn: (user: UserLogin) => logIn(user) });
 

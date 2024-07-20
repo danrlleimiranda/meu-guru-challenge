@@ -87,7 +87,6 @@ export default function RegisterUser() {
     });
   };
 
-  console.log(form.formState.isValid);
 
   return (
     <main className={`flex flex-col items-center justify-center gap-12 p-24`}>

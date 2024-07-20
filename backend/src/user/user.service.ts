@@ -8,7 +8,6 @@ import * as bcrypt from 'bcryptjs';
 
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../prisma/prisma.service';
-import { Role } from '../auth/role/role.enum';
 import logger from '../log/logger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -108,7 +107,7 @@ export class UserService {
     logger.info('User removed');
     return this.prisma.user.delete({
       where: { id },
-      select: { password: false },
+      select: { id: true, email: true },
     });
   }
 
@@ -147,7 +146,7 @@ export class UserService {
     }
     const payload = {
       sub: user.id,
-      role: user.role === 'admin' ? Role.Admin : Role.User,
+      role: user.role === 'admin' ? 'admin' : 'user',
     };
     const token = await this.jwtService.signAsync(payload);
     logger.info(`Logged user: ${JSON.stringify(payload)}`);

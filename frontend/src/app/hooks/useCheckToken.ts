@@ -17,6 +17,8 @@ function useCheckToken() {
       if (isTokenExpired) {
         localStorage.removeItem("GURU_TOKEN");
         push("/");
+      } else {
+        push("/users");
       }
     } else {
       push("/");
