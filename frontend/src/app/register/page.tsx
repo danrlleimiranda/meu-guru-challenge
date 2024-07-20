@@ -14,18 +14,19 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { z } from "zod";
 import logo from "../../../public/meu-guru.svg";
 import useCreateUser from "../hooks/useCreateUser";
+import { cpfMask, phoneMask } from "../utils/masks";
 
 const formSchema = z
   .object({
-    document: z.string({ required_error: "document is required" }),
+    document: z.string({ required_error: "document is required" }).max(15),
     email: z.string({ required_error: "email is required" }).email(),
     password: z.string({ required_error: "password is required" }).min(6),
     confirm_password: z.string().min(6).optional(),
-    phone: z.string({ required_error: "phone is required" }),
+    phone: z.string({ required_error: "phone is required" }).max(15),
     name: z.string({ required_error: "name is required" }).min(5),
   })
   .refine(({ password, confirm_password }) => password === confirm_password, {
@@ -42,26 +43,25 @@ export default function RegisterUser() {
     isSuccess: isCreatedSuccess,
   } = useCreateUser();
 
-//  useCheckToken();
-
-
   useEffect(() => {
     if (isCreatedSuccess) {
       Swal.fire({
         title: "Registrado com sucesso!",
         text: "Agora faça o login",
         icon: "success",
-        timer: 2000
+        timer: 2000,
       }).then(() => {
         push("/");
-      })
-    } else {
+      });
+    }
+
+    if (userError) {
       Swal.fire({
         title: "Algo deu errado!",
         text: "Tente novamente",
         icon: "error",
-        timer: 2000
-      })
+        timer: 2000,
+      });
     }
   }, [isCreatedSuccess]);
 
@@ -79,13 +79,18 @@ export default function RegisterUser() {
 
   const handleUserCreate = (values: z.infer<typeof formSchema>) => {
     delete values.confirm_password;
-    return mutateCreateUser({...values, role: 'user'});
+    return mutateCreateUser({
+      ...values,
+      role: "user",
+      document: cpfMask(values.document),
+      phone: phoneMask(values.phone),
+    });
   };
 
+  console.log(form.formState.isValid);
+
   return (
-    <main
-      className={`flex flex-col items-center justify-center gap-12 p-24`}
-    >
+    <main className={`flex flex-col items-center justify-center gap-12 p-24`}>
       <Image src={logo} alt="meu guru logo" className="" />
       <h1 className="text-4xl font-bold">Registre-se</h1>
       <div className="bg-purple">
@@ -112,7 +117,14 @@ export default function RegisterUser() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Digite o seu cpf" {...field} />
+                    <Input
+                      placeholder="Digite o seu cpf"
+                      maxLength={15}
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(cpfMask(e.target.value));
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,8 +148,16 @@ export default function RegisterUser() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Telefone" {...field} />
-                    
+                    <Input
+                      placeholder="Telefone"
+                      {...field}
+                      maxLength={15}
+                      onChange={(e) => {
+                        let input = e.target;
+                        input.value = phoneMask(input.value);
+                        field.onChange(input.value);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,7 +169,7 @@ export default function RegisterUser() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Senha" type="password"{...field} />
+                    <Input placeholder="Senha" type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -161,7 +181,11 @@ export default function RegisterUser() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="Confirme sua senha" type="password"{...field} />
+                    <Input
+                      placeholder="Confirme sua senha"
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
