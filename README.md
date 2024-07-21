@@ -186,13 +186,21 @@ Alguns pontos importantes a serem considerados incluem a atual cobertura limitad
 Além disso, ainda há funcionalidades a serem implementadas. Por exemplo, a capacidade para administradores criarem novos usuários está pendente; atualmente, o sistema só permite a edição e exclusão de usuários existentes, porém essa rota de criação já está implementada e pronta para ser utilizada.
 
 ## Contribuição
-Se você deseja contribuir para o projeto, siga os passos abaixo:
-
-```
 Faça um fork do repositório.
-Crie uma branch para sua feature (git checkout -b feature/nova-feature).
-Commit suas alterações (git commit -m 'Adiciona nova feature').
-Envie para o repositório remoto (git push origin feature/nova-feature).
-Abra um Pull Request.
+Crie uma branch para sua feature:
+```bash
+git checkout -b feature/nova-feature
 ```
+Commit suas alterações:
 
+```bash
+git commit -m 'Adiciona nova feature'
+```
+Envie para o repositório remoto:
+
+```bash
+git push origin feature/nova-feature
+```
+Abra um Pull Request.
+
+### Espero que tenham gostado, estou aberto para feedbacks!
