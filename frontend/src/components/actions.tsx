@@ -14,6 +14,7 @@ import { jwtDecode } from "jwt-decode";
 import { MoreHorizontal } from "lucide-react";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import EditModal from "./modal";
 
 type ActionProps = {
   cell: any;
@@ -24,16 +25,19 @@ type Payload = {
   role: string;
 };
 
-
 export default function Actions({ cell }: ActionProps) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isOpen, setIsOpen] = useState<{ id: string; isOpen: boolean }>({
+    id: cell.id,
+    isOpen: false,
+  });
+
   const {
     mutate: mutateDelete,
     isSuccess: isLoginSuccess,
     isError,
     data: loginData,
   } = useDelete();
-
   useEffect(() => {
     const token = localStorage.getItem("GURU_TOKEN");
     if (token) {
@@ -41,8 +45,6 @@ export default function Actions({ cell }: ActionProps) {
       setIsAdmin(role === "admin");
     }
   }, []);
-
-
 
   const handleDelete = (id: string) => {
     Swal.fire({
@@ -66,6 +68,14 @@ export default function Actions({ cell }: ActionProps) {
   };
   return (
     <div className="">
+      {(isOpen.id === cell.id && isOpen.isOpen) && (
+        <EditModal
+          cell={cell}
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+        />
+      )}
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -93,9 +103,7 @@ export default function Actions({ cell }: ActionProps) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           {isAdmin && (
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(cell.email)}
-            >
+            <DropdownMenuItem onClick={() => setIsOpen({ isOpen: true, id: cell.id})}>
               Editar
             </DropdownMenuItem>
           )}

@@ -1,15 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "../../api";
-
-type User = {
-  id: string;
-  document: string;
-  email: string;
-  phone: string;
-  name: string;
-  role: string;
-};
+import { User } from "../types/types";
 
 const getUser = async (id: string) => {
   return await api.get<User>(`/users/${id}`);
