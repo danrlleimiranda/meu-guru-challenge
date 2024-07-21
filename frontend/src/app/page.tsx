@@ -13,13 +13,16 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import logo from "../../public/logo-guru.jpg";
+
+import EyePassword from "@/components/eye-password";
 import useCheckToken from "./hooks/useCheckToken";
 import useLogin from "./hooks/useLogin";
-import style from './login.module.css';
+import style from "./login.module.css";
 
 const formSchema = z.object({
   login: z.string().email({ message: "Login must follows email format" }),
@@ -30,6 +33,7 @@ const formSchema = z.object({
 
 export default function Login() {
   const router = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
   const {
     mutate: mutateLogin,
     isSuccess: isLoginSuccess,
@@ -58,8 +62,8 @@ export default function Login() {
     mutateLogin(values);
 
   return (
-    <div className='flex items-center justify-center flex-col gap-8'> 
-      <Image src={logo} alt="meu guru logo" className='w-32 rounded-3xl' />
+    <div className="flex items-center justify-center flex-col gap-8">
+      <Image src={logo} alt="meu guru logo" className="w-32 rounded-3xl" />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleLogin)}
@@ -86,13 +90,23 @@ export default function Login() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="relative">
                 <FormControl>
-                  <Input placeholder="Digite sua senha" type="password" autoComplete="false" {...field} />
+                  <Input
+                    placeholder="Digite sua senha"
+                    type={isVisible ? "text" : "password"}
+                    autoComplete="false"
+                    {...field}
+                  />
                 </FormControl>
+                <EyePassword
+                  isVisible={isVisible}
+                  setIsVisible={setIsVisible}
+                />
                 <FormMessage />
                 <FormDescription className="text-xs underline text-purple-700">
-                  <a href="/register">Não tem conta? Registre-se</a></FormDescription>
+                  <a href="/register">Não tem conta? Registre-se</a>
+                </FormDescription>
               </FormItem>
             )}
           />

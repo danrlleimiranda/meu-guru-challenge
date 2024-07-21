@@ -5,7 +5,7 @@ WORKDIR /app-backend
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN npm install --quite --no-optional --no-fund --loglevel=error
+RUN npm ci --quite --no-optional --no-fund --loglevel=error
 
 COPY . .
 EXPOSE 3000
