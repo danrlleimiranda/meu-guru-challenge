@@ -3,7 +3,9 @@
 import Header from "@/components/header";
 import { DataTable } from "@/components/ui/data-table";
 import { useEffect, useState } from "react";
+import useCheckToken from "../hooks/useCheckToken";
 import useGetUsers from "../hooks/useGetUsers";
+import { User } from "../types/types";
 import { columns } from "./columns";
 
 export default function Users() {
@@ -13,6 +15,13 @@ export default function Users() {
     filters: "",
   });
   const { data, refetch } = useGetUsers({ ...pagination });
+  const [response, setResponse] = useState<User[]>(data ? data.data : []);
+
+  useCheckToken();
+
+  useEffect(() => {
+    setResponse(data ? data.data : []);
+  }, [data]);
 
   useEffect(() => {
     refetch();
@@ -36,8 +45,9 @@ export default function Users() {
       <Header />
       <DataTable
         columns={columns}
-        data={data ? data.data : []}
+        data={data ? response : []}
         handlePagination={handlePagination}
+        setResponse={setResponse}
       />
     </div>
   );

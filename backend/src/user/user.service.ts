@@ -64,10 +64,20 @@ export class UserService {
       skip: skip || 0,
       take: take || 3,
       where: {
-        name: {
-          contains: filters,
-          mode: 'insensitive',
-        },
+        OR: [
+          {
+            name: {
+              contains: filters,
+              mode: 'insensitive',
+            },
+          },
+          {
+            email: {
+              contains: filters,
+              mode: 'insensitive',
+            },
+          },
+        ],
       },
     });
     return { data: users, total };

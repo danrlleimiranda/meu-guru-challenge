@@ -27,8 +27,6 @@ const useGetUsers = ({ page, offset, filters }: PaginationType) => {
     retry: false,
   });
 
-  console.log(query)
-
   return { ...query, data: query.data?.data };
 };
 

@@ -1,12 +1,13 @@
 "use client";
 
+import { User } from "@/app/types/types";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 import {
   ColumnDef,
@@ -20,7 +21,8 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { api } from "../../api/index";
 import { Button } from "./button";
 import { Input } from "./input";
 
@@ -28,12 +30,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   handlePagination: (page: number) => void;
+  setResponse: Dispatch<SetStateAction<User[]>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   handlePagination,
+  setResponse,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -58,17 +62,31 @@ export function DataTable<TData, TValue>({
     },
   });
 
- 
+  const handleFilter = (value: string) => {
+    api.get(`/users?filters=${value}`).then((response) => {
+      setResponse(response.data.data);
+    });
+  };
 
   return (
     <div className="w-1/2 self-center mt-48 bg-white p-8 rounded-xl">
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-between py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filtrar por email..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
+          onChange={(event) => {
+            table.getColumn("email")?.setFilterValue(event.target.value);
+            setTimeout(() => handleFilter(event.target.value), 50);
+          }}
+          className="max-w-sm"
+        />
+        <Input
+          placeholder="Filtrar por nome..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => {
+            table.getColumn("name")?.setFilterValue(event.target.value);
+            setTimeout(() => handleFilter(event.target.value), 50);
+          }}
           className="max-w-sm"
         />
       </div>

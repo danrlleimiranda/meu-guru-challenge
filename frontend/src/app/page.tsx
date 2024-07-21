@@ -19,7 +19,7 @@ import { z } from "zod";
 import logo from "../../public/logo-guru.jpg";
 import useCheckToken from "./hooks/useCheckToken";
 import useLogin from "./hooks/useLogin";
-import style from "./login.module.css";
+import style from './login.module.css';
 
 const formSchema = z.object({
   login: z.string().email({ message: "Login must follows email format" }),
@@ -58,8 +58,8 @@ export default function Login() {
     mutateLogin(values);
 
   return (
-    <div className={style.container}>
-      <Image src={logo} alt="meu guru logo" className={style.logo} />
+    <div className='flex items-center justify-center flex-col gap-8'> 
+      <Image src={logo} alt="meu guru logo" className='w-32 rounded-3xl' />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleLogin)}
