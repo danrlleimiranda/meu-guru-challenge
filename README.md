@@ -5,7 +5,7 @@
   Meu Guru
 </h1>
 
-<a href='' target='_blank'>Assista o vídeo de demonstração.</a>
+<a href='https://youtu.be/NfClWWZHDxA' target='_blank'>Assista o vídeo de demonstração.</a>
 
 Meu Guru Challenge é uma aplicação full-stack que utiliza ferramentas como NestJS, NextJS e Docker Compose, além de diversas bibliotecas para ganhar produtividade e aprimorar visualmente a experiência do usuário. Este documento fornece uma visão geral do projeto, bem como instruções detalhadas sobre como configurá-lo, executá-lo e contribuir para ele.
 
@@ -50,6 +50,9 @@ cd meu-guru-challenge
 ```
 
 ### Iniciando o projeto
+
+O arquivo .env é essencial para inicialização, basta modificar o nome de .env.example para .env e está pronto para ser utilizado com o docker-compose.
+Nesse mesmo arquivo possui instruções caso queira rodar a aplicação localmente sem o uso do docker, porém o foco aqui é utilizar o que há de melhor no docker.
 
 ```sh
 npm run compose:up
