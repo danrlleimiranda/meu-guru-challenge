@@ -2,6 +2,7 @@
 
 import Header from "@/components/header";
 import { DataTable } from "@/components/ui/data-table";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import useCheckToken from "../hooks/useCheckToken";
 import useGetUsers from "../hooks/useGetUsers";
@@ -43,12 +44,19 @@ export default function Users() {
   return (
     <div className="flex flex-col w-full bg-[#7B2EC6]">
       <Header />
-      <DataTable
-        columns={columns}
-        data={data ? response : []}
-        handlePagination={handlePagination}
-        setResponse={setResponse}
-      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="self-center justify-center w-full flex"
+      >
+        <DataTable
+          columns={columns}
+          data={data ? response : []}
+          handlePagination={handlePagination}
+          setResponse={setResponse}
+        />
+      </motion.div>
     </div>
   );
 }

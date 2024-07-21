@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -62,7 +63,12 @@ export default function Login() {
     mutateLogin(values);
 
   return (
-    <div className="flex items-center justify-center flex-col gap-8">
+    <motion.div
+      className="flex items-center justify-center flex-col gap-8"
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+    >
       <Image src={logo} alt="meu guru logo" className="w-32 rounded-3xl" />
       <Form {...form}>
         <form
@@ -75,7 +81,11 @@ export default function Login() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Digite seu email" autoComplete='off' {...field} />
+                  <Input
+                    placeholder="Digite seu email"
+                    autoComplete="off"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage className="text-xs" />
                 {isError && (
@@ -118,6 +128,6 @@ export default function Login() {
           </Button>
         </form>
       </Form>
-    </div>
+    </motion.div>
   );
 }
