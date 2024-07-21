@@ -22,15 +22,15 @@ Meu Guru Challenge é uma aplicação full-stack que utiliza ferramentas como Ne
 7. [Scripts](#scripts)
     - [Backend](#backend-scripts)
     - [Frontend](#frontend-scripts)
-8. [Contribuição](#contribuição)
-9. [Considerações finais](#considerações-finais)
+8. [Considerações finais](#considerações-finais)
+9. [Contribuição](#contribuição)
 
 
 ## Visão Geral 
 
 Essa é uma aplicação moderna desenvolvida utilizando várias tecnologias de ponta para oferecer uma solução robusta e escalável. Ele é composto por um backend desenvolvido em NestJS e Prisma, um frontend em NextJS, oferencendo o melhor do react e o aprimorando, e Docker Compose para orquestração de contêineres, algumas bibliotecas interessantes foram usadas no frontend, sendo elas a useHookForm, tansteck query, shadcn e tailwind como as mais importantes, tendo também todas as rotas documentadas com o Swagger e foi realizado como um desafio técnico para a empresa Meu Guru.
 
-Nessa aplicação, é possível criar uma conta, realizar login e acessar uma página de usuários cadastrados no banco de dados, onde usuários com papel de administrador, podem apagar e editar as informações contidas dos outros usuários, enquanto usuários comuns só conseguem visualizar os dados.
+Nessa aplicação, é possível criar uma conta, realizar login e acessar uma página de usuários cadastrados no banco de dados, onde usuários com papel de administrador, podem apagar e editar as informações contidas dos outros usuários, enquanto usuários comuns só conseguem visualizar os dados. Além disso, é possível filtrar por email e nome, diretamente do banco de dados.
 
 ## Requisitos 
 
@@ -64,7 +64,7 @@ docker exec -it app_backend sh
 ```sh
 npm run seed
 ```
-Obs: Ainda será necessário encontrar uma forma de fazer isso, assim que os containers forem orquestrados.
+Obs: Ainda será necessário encontrar uma forma de fazer isso, assim que os containers forem orquestrados, pois não é possível fazer durante o build da imagem do backend, já que muitas vezes o container do postgres ainda não está disponível.
 
 #### Utilizando a aplicação.
 Para ter acesso a todas as funcionalidades, basta acessar com essa conta com acessos de administrador:
@@ -166,17 +166,6 @@ test: Executa os testes e logo após finaliza.
 test:watch: Executa os testes e continua escutando novas mudanças.
 ```
 
-## Contribuição
-Se você deseja contribuir para o projeto, siga os passos abaixo:
-
-```
-Faça um fork do repositório.
-Crie uma branch para sua feature (git checkout -b feature/nova-feature).
-Commit suas alterações (git commit -m 'Adiciona nova feature').
-Envie para o repositório remoto (git push origin feature/nova-feature).
-Abra um Pull Request.
-```
-
 ## Considerações finais.
 
 #### Backend
@@ -191,7 +180,16 @@ Desenvolver esta API foi uma experiência extremamente enriquecedora. Enfrentei 
 
 Alguns pontos importantes a serem considerados incluem a atual cobertura limitada de testes. Enfrentei desafios ao testar a aplicação, especialmente devido à escolha do Axios para gerenciar requisições, que revelou ser mais complexo do que o esperado quando integrado ao Jest. Esse aprendizado destacou a necessidade de aprofundar meus conhecimentos em testes automatizados, particularmente no contexto do Next.js.
 
-Além disso, ainda há funcionalidades a serem implementadas. Por exemplo, a capacidade para administradores criarem novos usuários está pendente; atualmente, o sistema só permite a edição e exclusão de usuários existentes.
+Além disso, ainda há funcionalidades a serem implementadas. Por exemplo, a capacidade para administradores criarem novos usuários está pendente; atualmente, o sistema só permite a edição e exclusão de usuários existentes, porém essa rota de criação já está implementada e pronta para ser utilizada.
 
+## Contribuição
+Se você deseja contribuir para o projeto, siga os passos abaixo:
 
+```
+Faça um fork do repositório.
+Crie uma branch para sua feature (git checkout -b feature/nova-feature).
+Commit suas alterações (git commit -m 'Adiciona nova feature').
+Envie para o repositório remoto (git push origin feature/nova-feature).
+Abra um Pull Request.
+```
 
