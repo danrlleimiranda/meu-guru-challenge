@@ -75,7 +75,7 @@ export default function Login() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Digite seu email" {...field} />
+                  <Input placeholder="Digite seu email" autoComplete='off' {...field} />
                 </FormControl>
                 <FormMessage className="text-xs" />
                 {isError && (
@@ -95,7 +95,6 @@ export default function Login() {
                   <Input
                     placeholder="Digite sua senha"
                     type={isVisible ? "text" : "password"}
-                    autoComplete="false"
                     {...field}
                   />
                 </FormControl>

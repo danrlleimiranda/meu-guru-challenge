@@ -1,5 +1,6 @@
 "use client";
 
+import EyePassword from "@/components/eye-password";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { z } from "zod";
@@ -36,6 +37,7 @@ const formSchema = z
 
 export default function RegisterUser() {
   const { push } = useRouter();
+  const [isVisible, setIsVisible] = useState(false);
 
   const {
     mutate: mutateCreateUser,
@@ -86,7 +88,6 @@ export default function RegisterUser() {
       phone: phoneMask(values.phone),
     });
   };
-
 
   return (
     <main className={`flex flex-col items-center justify-center gap-12 p-24`}>
@@ -166,10 +167,18 @@ export default function RegisterUser() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormControl>
-                    <Input placeholder="Senha" type="password" {...field} />
+                    <Input
+                      placeholder="Senha"
+                      type={isVisible ? "text" : "password"}
+                      {...field}
+                    />
                   </FormControl>
+                  <EyePassword
+                    isVisible={isVisible}
+                    setIsVisible={setIsVisible}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -182,7 +191,7 @@ export default function RegisterUser() {
                   <FormControl>
                     <Input
                       placeholder="Confirme sua senha"
-                      type="password"
+                      type={isVisible ? "text" : "password"}
                       {...field}
                     />
                   </FormControl>
