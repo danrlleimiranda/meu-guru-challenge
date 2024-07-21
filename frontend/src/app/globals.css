@@ -66,6 +66,11 @@ body {
   justify-content: center;
 }
 
+body.swal2-shown {
+    overflow: hidden !important;
+    padding-right: 0 !important;
+}
+
 
 @layer base {
   * {

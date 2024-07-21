@@ -4,7 +4,7 @@ WORKDIR /app-frontend
 
 COPY package*.json ./
 
-RUN npm ci --quite --no-optional --no-fund --loglevel=error
+RUN npm install
 
 COPY . .
 
