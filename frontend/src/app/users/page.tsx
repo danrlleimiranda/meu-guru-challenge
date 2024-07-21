@@ -42,7 +42,7 @@ export default function Users() {
   };
 
   return (
-    <div className="flex flex-col w-full bg-[#7B2EC6]">
+    <div className="flex flex-col w-full bg-[#7B2EC6] min-h-dvh">
       <Header />
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
