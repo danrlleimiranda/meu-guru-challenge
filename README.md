@@ -5,7 +5,7 @@
   Meu Guru
 </h1>
 
-<a href='' target='_blank'>Assista o vídeo de demonstração.</a>
+<a href='https://youtu.be/NfClWWZHDxA' target='_blank'>Assista o vídeo de demonstração.</a>
 
 Meu Guru Challenge é uma aplicação full-stack que utiliza ferramentas como NestJS, NextJS e Docker Compose, além de diversas bibliotecas para ganhar produtividade e aprimorar visualmente a experiência do usuário. Este documento fornece uma visão geral do projeto, bem como instruções detalhadas sobre como configurá-lo, executá-lo e contribuir para ele.
 
@@ -50,6 +50,9 @@ cd meu-guru-challenge
 ```
 
 ### Iniciando o projeto
+
+O arquivo .env é essencial para inicialização, basta modificar o nome de .env.example para .env e está pronto para ser utilizado com o docker-compose.
+Nesse mesmo arquivo possui instruções caso queira rodar a aplicação localmente sem o uso do docker, porém o foco aqui é utilizar o que há de melhor no docker.
 
 ```sh
 npm run compose:up
@@ -183,13 +186,21 @@ Alguns pontos importantes a serem considerados incluem a atual cobertura limitad
 Além disso, ainda há funcionalidades a serem implementadas. Por exemplo, a capacidade para administradores criarem novos usuários está pendente; atualmente, o sistema só permite a edição e exclusão de usuários existentes, porém essa rota de criação já está implementada e pronta para ser utilizada.
 
 ## Contribuição
-Se você deseja contribuir para o projeto, siga os passos abaixo:
-
-```
 Faça um fork do repositório.
-Crie uma branch para sua feature (git checkout -b feature/nova-feature).
-Commit suas alterações (git commit -m 'Adiciona nova feature').
-Envie para o repositório remoto (git push origin feature/nova-feature).
-Abra um Pull Request.
+Crie uma branch para sua feature:
+```bash
+git checkout -b feature/nova-feature
 ```
+Commit suas alterações:
 
+```bash
+git commit -m 'Adiciona nova feature'
+```
+Envie para o repositório remoto:
+
+```bash
+git push origin feature/nova-feature
+```
+Abra um Pull Request.
+
+### Espero que tenham gostado, estou aberto para feedbacks!
