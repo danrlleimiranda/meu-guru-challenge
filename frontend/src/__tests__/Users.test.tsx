@@ -9,14 +9,12 @@ import { MOCK_USERS } from "../__mocks__/mockData";
 jest.mock("axios", () => {
   const originalModule = jest.requireActual("axios");
 
-  // Crie uma instância mockada do Axios
   const mockAxios = originalModule.create({
-    baseURL: "https://exemplo.com",
+    baseURL: "http://localhost:3000",
   });
 
   mockAxios.interceptors.request.use(
     (config: InternalAxiosRequestConfig<any>) => {
-      // Simule a adição de um token de autenticação, por exemplo
       config.headers.Authorization = "Bearer token_mockado";
       return config;
     }

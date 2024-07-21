@@ -17,6 +17,8 @@ services:
     volumes: 
       - ./backend/src:/app-backend/src
       - ./backend/prisma:/app-backend/prisma
+    networks:
+      - guru_network
   postgres:
     image: postgres:16.3-alpine3.20
     container_name: postgresprisma
@@ -27,6 +29,8 @@ services:
       - ./backend/.env
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - guru_network
   frontend:
     container_name: app_frontend
     build: ./frontend
@@ -37,6 +41,12 @@ services:
     command: dev
     depends_on:
       - backend
+    networks:
+      - guru_network
 volumes:
   postgres:
     name: meu-guru-data
+networks:
+  guru_network:
+    name: meu_guru_network
+    driver: bridge
